@@ -1,0 +1,5 @@
+﻿  Datum.cpp
+D:\Documents\Development\C++\Projekte\cpp-projekte\OOP-Einfuehrung\Datum.cpp(83,12): warning C4804: "<": unsichere Verwendung des Typs "bool" in einer Operation
+  OOP-Einfuehrung.cpp
+  Code wird generiert...
+  OOP-Einfuehrung.vcxproj -> D:\Documents\Development\C++\Projekte\cpp-projekte\OOP-Einfuehrung\Debug\OOP-Einfuehrung.exe
