@@ -182,11 +182,7 @@ string Datum::toString()
 {
     string s = string();
     ostringstream ostream;
-    ostream << this->getDay();
-    ostream << ".";
-    ostream << this->getMonth();
-    ostream << ".";
-    ostream << this->getYear();
+    ostream << this->getDay() << "." << this->getMonth() << "." << this->getYear() << flush;
     return ostream.str();
 }
 
@@ -194,10 +190,6 @@ string Datum::toSqlDateString()
 {
     string s = string();
     ostringstream ostream;
-    ostream << this->getYear();
-    ostream << "-";
-    ostream << this->getMonth();
-    ostream << "-";
-    ostream << this->getDay();
+    ostream << this->getYear() << "-" << this->getMonth() << "-" << this->getDay() << flush;
     return ostream.str();
 }
