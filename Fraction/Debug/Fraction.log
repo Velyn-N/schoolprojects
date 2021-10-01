@@ -1,0 +1,5 @@
+﻿  Fraction.cpp
+D:\Documents\Development\C++\Projekte\Fraction\Fraction.cpp(15,23): warning C4244: "=": Konvertierung von "double" in "int", möglicher Datenverlust
+  fractionTest.cpp
+  Code wird generiert...
+  Fraction.vcxproj -> D:\Documents\Development\C++\Projekte\Fraction\Debug\Fraction.exe
