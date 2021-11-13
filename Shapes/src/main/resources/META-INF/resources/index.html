@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-100">
 
 <head>
 	<title>Shapes - by NMA & MFI</title>
@@ -16,40 +16,207 @@
 	<script src="/lib/script.js"></script>
 </head>
 
-<body>
+<body class="h-100">
+	<div class="container h-100">
+		<hr class="invisible"></hr>
 	
-	<div class="container">
 		<div class="row">
-			
 			<div class="col s5">
-				<div id="outputMessages" class="w-100 h-100"></div>
+				<div id="outputMessages" class="w-100"></div>
 			</div>
 			
-			<canvas id="canvas"></canvas>
+			<div class="col s2 center-align">
+				<hr>
+				
+				<h5>
+					Max-Height: <span id="heightDisplay"></span>
+				</h5>
+				<h5>
+					Max-Width: <span id="widthDisplay"></span>
+				</h5>
+				
+				<hr>
+				
+				<p>
+					<button id="clearCanvas">Clear Canvas</button>
+				</p>
+				<p>
+					<button id="clearConsole">Clear Console</button>
+				</p>				
+				
+				<hr>
+			</div>
+			
+			<div class="col s5">
+				<canvas id="canvas" class="w-100 h-100"></canvas>
+			</div>
 			
 		</div>
+		<div class="row w-100 center-align">
+			<span id="errorMessages"></span>
+		</div>
+		
+		<hr>
+		
+		<div class="row">
+			<div class="col s4 center-align">
+				<div class="row">
+					<div class="col s10 offset-s2 center-align">
+						<h3>Line</h3>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col s5 offset-s2">
+						Height
+					</div>
+					<div class="col s5">
+						Width
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s2">
+						Point 1
+					</div>
+					<div class="col s5">
+						<input type="number" id="line-p1-y">
+					</div>
+					<div class="col s5">
+						<input type="number" id="line-p1-x">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s2">
+						Point 2
+					</div>
+					<div class="col s5">
+						<input type="number" id="line-p2-y">
+					</div>
+					<div class="col s5">
+						<input type="number" id="line-p2-x">
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col s10 offset-s2 center-align">
+						<button id="newLine">Draw Line</button>
+					</div>
+				</div>
+			</div>
+			<div class="col s4 center-align">
+				<div class="row">
+					<div class="col s10 offset-s2 center-align">
+						<h3>Rectangle</h3>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col s5 offset-s2">
+						Height
+					</div>
+					<div class="col s5">
+						Width
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s2">
+						Point 1<br>
+						Top-L
+					</div>
+					<div class="col s5">
+						<input type="number" id="rect-p1-y">
+					</div>
+					<div class="col s5">
+						<input type="number" id="rect-p1-x">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s2">
+						Point 2<br>
+						Top-R
+					</div>
+					<div class="col s5">
+						<input type="number" id="rect-p2-y">
+					</div>
+					<div class="col s5">
+						<input type="number" id="rect-p2-x">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s2">
+						Point 3<br>
+						Bot-L
+					</div>
+					<div class="col s5">
+						<input type="number" id="rect-p4-y">
+					</div>
+					<div class="col s5">
+						<input type="number" id="rect-p4-x">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s2">
+						Point 4<br>
+						Bot-R
+					</div>
+					<div class="col s5">
+						<input type="number" id="rect-p3-y">
+					</div>
+					<div class="col s5">
+						<input type="number" id="rect-p3-x">
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col s10 offset-s2 center-align">
+						<button id="newRect">Draw Rectangle</button>
+					</div>
+				</div>
+			</div>
+			<div class="col s4 center-align">
+				<div class="row">
+					<div class="col s10 offset-s2 center-align">
+						<h3>Circle</h3>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col s5 offset-s2">
+						Height
+					</div>
+					<div class="col s5">
+						Width
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s2">
+						Point 1
+					</div>
+					<div class="col s5">
+						<input type="number" id="circle-p1-y">
+					</div>
+					<div class="col s5">
+						<input type="number" id="circle-p1-x">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s2">
+						Radius
+					</div>
+					<div class="col s10">
+						<input type="number" id="circle-radius">
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col s10 offset-s2 center-align">
+						<button id="newCircle">Draw Circle</button>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
-	
-	
-
-	<script>
-		var canvas;
-		var context;
-
-		setInterval(loadOutput, 5000);
-
-		$(document).ready(function() {
-			loadOutput();
-			
-			
-			initCanvas();
-			
-			context.beginPath();
-			context.arc(75, 75, 50, 0, Math.PI * 2, true);
-			context.moveTo(110, 75);
-			context.stroke();
-		});
-	</script>
+	<script src="/lib/actionBindings.js"></script>
 </body>
 
 </html>

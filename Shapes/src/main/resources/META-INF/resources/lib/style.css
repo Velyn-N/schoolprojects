@@ -1,5 +1,10 @@
 body {
 	background-color: #4d4d4d;
+	color: orange;
+}
+
+canvas {
+	background-color: #ffff80;
 }
 
 .w-100 {
@@ -10,10 +15,29 @@ body {
 	height: 100% !important;
 }
 
+.invisible {
+	visibility: hidden;
+}
+
+.container {
+	background-color: #6f6f6f;
+}
+
 #outputMessages {
-	border: black;
-	min-height: 250px;
+	color: lime;
+	height: 250px;
 	width: 20%;
-	background-color: antiquewhite;
+	background-color: black;
 	font-family: Consolas, monospace;
+	overflow-y: scroll;
+}
+
+#errorMessages {
+	color: darkred;
+	font-size: larger;
+	font-weight: bold;
+}
+
+.sideDesc {
+	vertical-align: bottom;
 }

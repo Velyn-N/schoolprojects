@@ -59,4 +59,9 @@ public class Rectangle {
 	public void setPoint4(Point point4) {
 		this.point4 = point4;
 	}
+
+	@Override
+	public String toString() {
+		return "Rectangle{" + point1 + "/" + point2 + "/" + point3 + "/" + point4 + "}";
+	}
 }
