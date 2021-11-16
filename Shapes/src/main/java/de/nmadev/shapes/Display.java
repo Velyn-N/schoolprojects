@@ -31,11 +31,11 @@ public class Display {
 		// Point p3 = rectangle.getPoint3();
 		// Point p4 = rectangle.getPoint4();
 
-		// double res = 0.5 * ( 
+		// double res = Math.abs( 0.5 * ( 
 		// 	(p1.getX()*p2.getY() - p1.getY()*p2.getX()) +
 		// 	(p2.getX()*p3.getY() - p2.getY()*p3.getX()) +
 		// 	(p3.getX()*p4.getY() - p3.getY()*p4.getX()) +
-		// 	(p4.getX()*p1.getY() - p4.getY()*p1.getX()) );
+		// 	(p4.getX()*p1.getY() - p4.getY()*p1.getX()) ));
 
 		ArrayList<Point> corners = new ArrayList<>();
 		corners.add(rectangle.getPoint1());
@@ -71,7 +71,7 @@ public class Display {
 		res += (p1.getX() * p2.getY() - p1.getY() * p2.getX());
 
 		// Halve it
-		res = res / 2;
+		res = Math.abs( res / 2 );
 
 		return res;
 	}
