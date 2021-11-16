@@ -16,9 +16,8 @@ public class ShapeManager {
     @Path("/line") @POST
     public void line(Line line) {
         if (line != null) {
-            line.callDisplay();
-
             wOut.write(line.toString());
+            line.callDisplay();
         } else {
             wOut.write("Incorrect Shape send: " + line);
         }
@@ -27,9 +26,8 @@ public class ShapeManager {
     @Path("/rectangle") @POST
     public void rectangle(Rectangle rectangle) {
         if (rectangle != null) {
-            rectangle.callDisplay();
-
             wOut.write(rectangle.toString());
+            rectangle.callDisplay();
         } else {
             wOut.write("Incorrect Shape send: " + rectangle);
         }
@@ -38,9 +36,8 @@ public class ShapeManager {
     @Path("/circle") @POST
     public void circle(Circle circle) {
         if (circle != null) {
-            circle.callDisplay();
-
             wOut.write(circle.toString());
+            circle.callDisplay();
         } else {
             wOut.write("Incorrect Shape send: " + circle);
         }

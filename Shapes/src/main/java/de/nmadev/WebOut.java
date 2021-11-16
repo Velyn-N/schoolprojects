@@ -28,6 +28,7 @@ public class WebOut {
 	
 	public WebOut() {
 		write("Application started.");
+		instance = this;
 	}
 	
 	public static WebOut getInstance() {

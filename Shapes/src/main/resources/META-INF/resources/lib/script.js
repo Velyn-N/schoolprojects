@@ -147,8 +147,8 @@ function drawRect(rect) {
 	context.beginPath();
 	context.moveTo(p1x, p1y);
 	context.lineTo(p2x, p2y);
-	context.lineTo(p3x, p3y);
 	context.lineTo(p4x, p4y);
+	context.lineTo(p3x, p3y);
 	context.lineTo(p1x, p1y);
 	context.stroke();
 }

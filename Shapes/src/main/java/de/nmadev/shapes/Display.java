@@ -12,16 +12,16 @@ public class Display {
 		Point p1 = line.getPoint1();
 		Point p2 = line.getPoint2();
 
-		double res = Math.sqrt( Math.pow((p2.getX()-p1.getX()),2) + Math.pow(p2.getY(), p1.getY()) );
+		double res = Math.sqrt(Math.pow((p2.getX() - p1.getX()), 2) + Math.pow(p2.getY(), p1.getY()) );
 
-		WebOut.getInstance().write("Länge: " + res);
+		WebOut.getInstance().write("Length of Line: " + res);
 		return res;
 	}
 	
 	public double getArea(Circle circle) {
 		double res = Math.pow(circle.getRadius(),2) * Math.PI;
 
-		WebOut.getInstance().write("Fläche: " + res);
+		WebOut.getInstance().write("Area of Circle: " + res);
 		return res;
 	}
 	
@@ -45,7 +45,7 @@ public class Display {
 		
 		double res = getPolygonArea(corners);
 
-		WebOut.getInstance().write("Fläche: " + res);
+		WebOut.getInstance().write("Area of Rectangle: " + res);
 		return res;
 	}	
 	
@@ -54,24 +54,24 @@ public class Display {
 		double res = 0;
 
 		// Can't calculate area of a line
-		if (polygon.size() > 3) {
+		if (polygon.size() < 3) {
 			return 0;
 		}
 
 		// Iterate through points
-		for (int i=0; i<polygon.size()-1; i++) {
+		for (int i = 0; i < polygon.size() - 1; i++) {
 			Point p1 = polygon.get(i);
-			Point p2 = polygon.get(i+1);	
-			res += (p1.getX()*p2.getX() - p1.getY()*p2.getY());
+			Point p2 = polygon.get(i + 1);	
+			res += (p1.getX() * p2.getX() - p1.getY() * p2.getY());
 		}
 
 		// Final point
-		Point p1 = polygon.get(polygon.size()-1);
+		Point p1 = polygon.get(polygon.size() - 1);
 		Point p2 = polygon.get(0);	
-		res += (p1.getX()*p2.getX() - p1.getY()*p2.getY());
+		res += (p1.getX() * p2.getX() - p1.getY() * p2.getY());
 
 		// Halve it
-		res = res/2;
+		res = res / 2;
 
 		return res;
 	}
