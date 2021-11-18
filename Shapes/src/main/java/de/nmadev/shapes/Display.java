@@ -59,7 +59,7 @@ public class Display {
 		}
 
 		// Iterate through points
-		for (int i = 0; i < polygon.size() - 1; i++) {
+		for (int i = 0; i < polygon.size() - 2; i++) {
 			Point p1 = polygon.get(i);
 			Point p2 = polygon.get(i + 1);	
 			res += (p1.getX() * p2.getY() - p1.getY() * p2.getX());
