@@ -6,7 +6,7 @@ public class Line {
 	private Display display;
 	
 	public Line() {
-		this.display = new Display();
+		this.display = Display.getInstance();
 	}
 	
 	public Line(Point point1, Point point2) {

@@ -7,7 +7,7 @@ public class Circle {
 	private Display display;
 	
 	public Circle() {
-		this.display = new Display();
+		this.display = Display.getInstance();
 	}
 	
 	public Circle(Point middlePoint, double radius) {

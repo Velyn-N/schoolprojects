@@ -9,7 +9,7 @@ public class Rectangle {
 	private Display display;
 	
 	public Rectangle() {
-		this.display = new Display();
+		this.display = Display.getInstance();
 	}
 	
 	public Rectangle(Point point1, Point point2, Point point3, Point point4) {

@@ -1,12 +1,22 @@
 package de.nmadev.shapes;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import de.nmadev.WebOut;
 
 public class Display {
-	
-	public Display() {}
+	private static Display instance;
+	private WebOut wOut;
+
+	public Display() {
+		wOut = WebOut.getInstance();
+		instance = this;
+	}
+
+	public static Display getInstance() {
+		return (Objects.nonNull(instance)) ? instance : new Display();
+	}
 	
 	public double getLength(Line line) {
 		Point p1 = line.getPoint1();
@@ -14,29 +24,18 @@ public class Display {
 
 		double res = Math.sqrt( Math.pow((p2.getX() - p1.getX()), 2) + Math.pow((p2.getY() - p1.getY()), 2) );
 
-		WebOut.getInstance().write("Length of Line: " + res);
+		wOut.write("Length of Line: " + res);
 		return res;
 	}
 	
 	public double getArea(Circle circle) {
 		double res = Math.pow(circle.getRadius(),2) * Math.PI;
 
-		WebOut.getInstance().write("Area of Circle: " + res);
+		wOut.write("Area of Circle: " + res);
 		return res;
 	}
 	
 	public double getArea(Rectangle rectangle) {
-		// Point p1 = rectangle.getPoint1();
-		// Point p2 = rectangle.getPoint2();
-		// Point p3 = rectangle.getPoint3();
-		// Point p4 = rectangle.getPoint4();
-
-		// double res = Math.abs( 0.5 * ( 
-		// 	(p1.getX()*p2.getY() - p1.getY()*p2.getX()) +
-		// 	(p2.getX()*p3.getY() - p2.getY()*p3.getX()) +
-		// 	(p3.getX()*p4.getY() - p3.getY()*p4.getX()) +
-		// 	(p4.getX()*p1.getY() - p4.getY()*p1.getX()) ));
-
 		ArrayList<Point> corners = new ArrayList<>();
 		corners.add(rectangle.getPoint1());
 		corners.add(rectangle.getPoint2());
@@ -45,7 +44,7 @@ public class Display {
 		
 		double res = getPolygonArea(corners);
 
-		WebOut.getInstance().write("Area of Rectangle: " + res);
+		wOut.write("Area of Rectangle: " + res);
 		return res;
 	}	
 	
