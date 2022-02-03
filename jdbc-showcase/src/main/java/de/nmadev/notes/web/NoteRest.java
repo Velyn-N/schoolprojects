@@ -13,13 +13,6 @@ public class NoteRest {
 
     NoteDao noteDao = new NoteDao();
 
-    @Path("/all")
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<Note> getAllNotes() {
-        return noteDao.getAllNotes();
-    }
-
     @Path("/create")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)

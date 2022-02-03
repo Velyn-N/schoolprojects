@@ -1,6 +1,8 @@
 package de.nmadev.notes.db.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Category implements Serializable {
 
@@ -8,6 +10,8 @@ public class Category implements Serializable {
     private String name;
     private String color = "yellow";
     private int noteAmount = 0;
+
+    private List<Note> notes = new ArrayList<>();
 
     public long getId() {
         return id;
@@ -39,5 +43,13 @@ public class Category implements Serializable {
 
     public void setNoteAmount(int noteAmount) {
         this.noteAmount = noteAmount;
+    }
+
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    public void setNotes(List<Note> notes) {
+        this.notes = notes;
     }
 }

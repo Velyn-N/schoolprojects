@@ -1,0 +1,25 @@
+body {
+    background-color: #434343;
+    color: #1f1f1f;
+}
+
+hr {
+    color: lightgray;
+}
+
+a {
+    cursor: pointer;
+}
+
+.category {
+    padding-top: 0.75rem;
+    padding-bottom: 0.25rem;
+    background-color: #535353;
+    border-radius: 1rem;
+    margin-top: 1.5rem;
+}
+
+.card {
+    background-color: transparent;
+    margin: 0.5rem 1rem;
+}

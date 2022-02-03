@@ -14,23 +14,25 @@ public class CategoryRest {
 
     NoteDao noteDao = new NoteDao();
 
-    @Path("/{id}")
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Category getSingleCategory(@PathParam("id") String id) {
-        long l = NumberUtils.toLong(id, -1L);
-        if (l > -1) {
-            return noteDao.findCategory(l);
-        }
-        return null;
-    }
-
     @Path("/all")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Category> getAllCategories() {
         return noteDao.getAllCategories();
     }
+
+    @Path("/all/withnotes")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Category> getAllCategoriesWithNotes() {
+        List<Category> categories = noteDao.getAllCategories();
+
+        for (Category category : categories) {
+            category.setNotes(noteDao.findNotesOfCategory(category.getId()));
+        }
+        return categories;
+    }
+
 
     @Path("/create")
     @POST
