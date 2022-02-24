@@ -1,9 +1,8 @@
 package de.nmadev.notes.db;
 
+import de.nmadev.notes.Logger;
 import de.nmadev.notes.db.entities.Category;
 import de.nmadev.notes.db.entities.Note;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,7 +10,7 @@ import java.util.List;
 
 public class NoteDao {
 
-    private Logger log = LoggerFactory.getLogger(NoteDao.class);
+    private Logger log = new Logger(NoteDao.class.getSimpleName());
 
     public List<Category> getAllCategories() {
         List<Category> allCategories = new ArrayList<>();
@@ -19,7 +18,8 @@ public class NoteDao {
             Connection con = DataSource.getConnection();
 
             PreparedStatement statement = con.prepareStatement("SELECT * FROM category;");
-            log.info(statement.toString());
+            log.log(statement.toString());
+
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
@@ -29,6 +29,8 @@ public class NoteDao {
                 category.setName(resultSet.getString("name"));
                 category.setColor(resultSet.getString("color"));
                 category.setNoteAmount(resultSet.getInt("noteamount"));
+
+                category.setNotes(findNotesOfCategory(category.getId()));
 
                 allCategories.add(category);
             }
@@ -44,8 +46,9 @@ public class NoteDao {
             Connection con = DataSource.getConnection();
 
             PreparedStatement statement = con.prepareStatement("SELECT * FROM note WHERE categoryid = ?;");
-            log.info(statement.toString());
             statement.setLong(1, categoryId);
+            log.log(statement.toString());
+
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
@@ -60,65 +63,43 @@ public class NoteDao {
                 notes.add(note);
             }
         } catch (SQLException e) {
+            log.log(e.getMessage());
             return new ArrayList<>();
         }
         return notes;
     }
 
-    public void mergeNote(Note note) throws SQLException {
-        Connection con = DataSource.getConnection();
-
-        PreparedStatement statement = con.prepareStatement("UPDATE note SET title = ?, content = ?, creationDate = ?, categoryid = ? where id = ?;");
-        log.info(statement.toString());
-
-        statement.setString(1, note.getTitle());
-        statement.setString(2, note.getContent());
-        statement.setTimestamp(3, Timestamp.valueOf(note.getCreationDate()));
-        statement.setLong(4, note.getCategoryId());
-        statement.setLong(5, note.getId());
-
-        statement.executeQuery();
-    }
-
-    public void mergeCategory(Category category) throws SQLException {
-        Connection con = DataSource.getConnection();
-
-        PreparedStatement statement = con.prepareStatement("UPDATE category SET name = ?, color = ?, noteamount = ? WHERE id = ?;");
-        log.info(statement.toString());
-
-        statement.setString(1, category.getName());
-        statement.setString(2, category.getColor());
-        statement.setInt(3, category.getNoteAmount());
-        statement.setLong(4, category.getId());
-
-        statement.executeQuery();
-    }
-
     public void persistNote(Note note) throws SQLException {
         Connection con = DataSource.getConnection();
 
-        PreparedStatement statement = con.prepareStatement("INSERT INTO note VALUES (title = ?, content = ?, creationdate = ?, categoryid = ?);");
-        log.info(statement.toString());
+        PreparedStatement statement = con.prepareStatement("INSERT INTO note (title, content, creationdate, categoryid) VALUES (?, ?, ?, ?);");
 
         statement.setString(1, note.getTitle());
         statement.setString(2, note.getContent());
         statement.setTimestamp(3, Timestamp.valueOf(note.getCreationDate()));
         statement.setLong(4, note.getCategoryId());
+        log.log(statement.toString());
 
-        statement.executeQuery();
+        statement.executeUpdate();
     }
 
     public void persistCategory(Category category) throws SQLException {
         Connection con = DataSource.getConnection();
 
-        PreparedStatement statement = con.prepareStatement("INSERT INTO category VALUES (name = ?, color = ?, noteamount = ?);");
-        log.info(statement.toString());
-
+        PreparedStatement statement = con.prepareStatement("INSERT INTO category (name, color, noteamount) VALUES (?, ?, ?);");
         statement.setString(1, category.getName());
         statement.setString(2, category.getColor());
         statement.setInt(3, category.getNoteAmount());
 
-        statement.executeQuery();
+        log.log(statement.toString());
+
+        statement.executeUpdate();
+
+        if (!category.getNotes().isEmpty()) {
+            for (Note note : category.getNotes()) {
+                persistNote(note);
+            }
+        }
     }
 
     public List<Note> searchNote(String searchString) {
@@ -126,11 +107,12 @@ public class NoteDao {
         try {
             Connection con = DataSource.getConnection();
 
-            PreparedStatement statement = con.prepareStatement("SELECT * FROM note WHERE title LIKE '%'+?+'%' OR content LIKE '%'+?+'%';");
-            log.info(statement.toString());
+            PreparedStatement statement = con.prepareStatement("SELECT * FROM note WHERE title LIKE ? OR content LIKE ?;");
 
-            statement.setString(1, searchString);
-            statement.setString(2, searchString);
+            String searchStringMod = "%" + searchString + "%";
+            statement.setString(1, searchStringMod);
+            statement.setString(2, searchStringMod);
+            log.log(statement.toString());
 
             ResultSet resultSet = statement.executeQuery();
 
@@ -146,6 +128,7 @@ public class NoteDao {
                 foundNotes.add(note);
             }
         } catch (SQLException e) {
+            log.log(e.getMessage());
             return new ArrayList<>();
         }
         return foundNotes;

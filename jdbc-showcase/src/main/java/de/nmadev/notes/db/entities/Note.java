@@ -8,7 +8,7 @@ public class Note implements Serializable {
     private long id;
     private String title;
     private String content;
-    private LocalDateTime creationDate;
+    private LocalDateTime creationDate = LocalDateTime.now();
     private long categoryId;
 
     public long getId() {
