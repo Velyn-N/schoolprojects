@@ -1,0 +1,109 @@
+#include <ESP8266WiFi.h>        // Laden der WiFi-Bibliothek
+
+const char* ssid     = "5G Covid Control Unit 0X69F20A";    // Unsere SSID
+const char* password = "Mittwoch";      // Das beliebteste Passwort aller Zeiten;-)
+
+WiFiServer server(80);        // Der Server auf Port Nummer 80
+IPAddress apIP(192, 168, 4, 1);
+
+
+String request = "";
+int LED_Pin = 16;
+int LED_2_Pin = 2;
+int ADC;
+
+void setup() {
+  Serial.begin(115200);       // Initialisieren der seriellen Schnittstelle
+
+  pinMode(LED_Pin, OUTPUT); 
+  pinMode(LED_2_Pin, OUTPUT);
+  delay(2000);
+
+  Serial.println("");
+  Serial.print("Setting up Access Point...");
+  WiFi.mode(WIFI_AP);
+  WiFi.softAP(ssid, password);
+  
+  delay(100);
+  
+  IPAddress myIP = WiFi.softAPIP();
+  Serial.print("AP IP address: ");
+  Serial.println(myIP);
+  
+  server.begin();
+  Serial.println("HTTP Server gestartet");
+}
+
+void loop() {
+  WiFiClient client = server.available(); // Neuen Client erzeugen um Serveranfragen zu beantworten          
+  if (!client) {
+    return;
+  } else { // Es kommt eine neue Anfrage...
+    request = client.readStringUntil('\r');  // Auslesen bis zum Terminator 'Carriage Return'
+ 
+    if (request.indexOf("LED1ON") > 0) {
+      digitalWrite(LED_Pin, HIGH);
+    } else if (request.indexOf("LED1OFF") > 0) {
+      digitalWrite(LED_Pin, LOW);
+    }
+
+    if (request.indexOf("LED2ON") > 0) {
+      digitalWrite(LED_2_Pin, HIGH);
+    } else if (request.indexOf("LED2OFF") > 0) {
+      digitalWrite(LED_2_Pin, LOW);
+    }
+ 
+    boolean ledOneOn = (digitalRead(LED_Pin) == HIGH);
+    boolean ledTwoOn = (digitalRead(LED_2_Pin) == HIGH);
+ 
+    client.flush();
+    client.print(getFullHtmlDoc(ledOneOn, ledTwoOn));
+  }
+}
+
+String getFullHtmlDoc(boolean ledOne, boolean ledTwo) {
+  String serialOut = "Led1=";
+  serialOut += ledOne;
+  serialOut += ",Led2=";
+  serialOut += ledTwo;
+  Serial.println(serialOut);
+  
+  String html = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n";
+  html += "<!DOCTYPE html><html><head>";
+  html += "<meta name='viewport' content='width=device-width, initial-scale=1.0'/><meta charset='utf-8'><meta http-equiv='refresh' content='3'>";
+  html += "<style>body {font-size:150%; text-align: center;}";
+  html += "#main {display: table; margin: auto;  padding: 0 10px 0 10px; } h2,{text-align:center; }";
+  html += ".button { padding:10px 10px 10px 10px; width:100%;  background-color: #66cc66; font-size: 120%;}</style>";
+  html += "<title>Server Control</title>";
+  html += "</head><body><div id='main'><h2>Server Control</h2>";
+  
+  html += "<table><tr><td colspan='2'>LED One is ";
+  html += (ledOne) ? "on" : "off";
+  html += "</td></tr><tr><td>";
+  html += "<form id='1on' action='LED1ON'><input class='button' type='submit' value='LED ON' ></form>";
+  html += "</td><td>";
+  html += "<form id='1off' action='LED1OFF'><input class='button' type='submit' value='LED OFF' ></form>";
+  html += "</td></tr></table>";
+
+  html += "<table><tr><td colspan='2'>LED Two is ";
+  html += (ledTwo) ? "on" : "off";
+  html += "</td></tr><tr><td>";
+  html += "<form id='2on' action='LED2ON'><input class='button' type='submit' value='LED ON' ></form>";
+  html += "</td><td>";
+  html += "<form id='2off' action='LED2OFF'><input class='button' type='submit' value='LED OFF' ></form>";
+  html += "</td></tr></table>";
+
+  html += "";
+  html += "</div></body></html>";
+
+  return html;
+}
+
+String getHTML(){
+       int ADC = analogRead(A0);      // Auslesen des ADC 
+       String h4 = "<p>Wert an A0: ";
+       h4 += (int)ADC;
+       h4 += "</p>";
+       Serial.println(h4);
+ return h4;
+}

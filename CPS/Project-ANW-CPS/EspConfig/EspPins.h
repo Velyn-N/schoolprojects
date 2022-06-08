@@ -1,0 +1,10 @@
+#define EspPin_D0 16
+#define EspPin_D1 5
+#define EspPin_D2 4
+#define EspPin_D3 0
+#define EspPin_D4 2
+#define EspPin_D5 14
+#define EspPin_D6 12
+#define EspPin_D7 13
+#define EspPin_D8 15
+#define EspPin_A0 A0
